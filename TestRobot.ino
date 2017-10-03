@@ -66,28 +66,6 @@ void stopMotors() {
 
 void leftDriveForward(int speed) {
   Serial.write(leftAddress);
-  Serial.write(0);
-  Serial.write(speed);
-  Serial.write((leftAddress + 0 + speed) & 0b01111111);
-  Serial.write(leftAddress);
-  Serial.write(4);
-  Serial.write(speed);
-  Serial.write((leftAddress + 4 + speed) & 0b01111111);
-}
-
-void rightDriveForward(int speed) { //Right side is reversed to drive straight
-  Serial.write(rightAddress);
-  Serial.write(1);
-  Serial.write(speed);
-  Serial.write((rightAddress + 1 + speed) & 0b01111111);
-  Serial.write(rightAddress);
-  Serial.write(5);
-  Serial.write(speed);
-  Serial.write((rightAddress + 5 + speed) & 0b01111111);
-}
-
-void leftDriveBackward(int speed) {
-  Serial.write(leftAddress);
   Serial.write(1);
   Serial.write(speed);
   Serial.write((leftAddress + 1 + speed) & 0b01111111);
@@ -97,7 +75,7 @@ void leftDriveBackward(int speed) {
   Serial.write((leftAddress + 5 + speed) & 0b01111111);
 }
 
-void rightDriveBackward(int speed) {
+void rightDriveForward(int speed) { //Right side is reversed to drive straight
   Serial.write(rightAddress);
   Serial.write(0);
   Serial.write(speed);
@@ -106,6 +84,28 @@ void rightDriveBackward(int speed) {
   Serial.write(4);
   Serial.write(speed);
   Serial.write((rightAddress + 4 + speed) & 0b01111111);
+}
+
+void leftDriveBackward(int speed) {
+  Serial.write(leftAddress);
+  Serial.write(0);
+  Serial.write(speed);
+  Serial.write((leftAddress + 0 + speed) & 0b01111111);
+  Serial.write(leftAddress);
+  Serial.write(4);
+  Serial.write(speed);
+  Serial.write((leftAddress + 4 + speed) & 0b01111111);
+}
+
+void rightDriveBackward(int speed) {
+  Serial.write(rightAddress);
+  Serial.write(1);
+  Serial.write(speed);
+  Serial.write((rightAddress + 1 + speed) & 0b01111111);
+  Serial.write(rightAddress);
+  Serial.write(5);
+  Serial.write(speed);
+  Serial.write((rightAddress + 5 + speed) & 0b01111111);
 }
 
 void DriveForward(int speed) {
