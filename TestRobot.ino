@@ -12,14 +12,13 @@ void setup() {
   }
 
 void loop() {
- 
  i += 1;
  if(i < 3) {
-  DriveForward(60);
+  TurnRight(60);
   delay(1000);
   stopMotors();
   delay(1000);
-  DriveBackward(60);
+  TurnLeft(60);
   delay(1000);
   stopMotors();
   delay(1000);
@@ -27,18 +26,6 @@ void loop() {
  else{
   stopMotors();
  }
-  /*
-  Serial.write(leftAddress);
-  Serial.write(0);
-  Serial.write(127);
-  Serial.write((leftAddress + 0 + 127) & 0b01111111);
-  delay(1000);
-  Serial.write(leftAddress);
-  Serial.write(0);
-  Serial.write(60);
-  Serial.write((leftAddress + 0 + 60) & 0b01111111);
-  delay(1000);
-  */
 }
 
 void stopMotors() {
@@ -118,14 +105,14 @@ void DriveBackward(int speed) {
   rightDriveBackward(speed);
 }
 
-void RightTurn(int speed) { //Untested
+void TurnRight(int speed) { //Turning at 60 speed for 1 sec is almost perfectly 45 degrees
   leftDriveForward(speed);
-  rightDriveForward(speed);
+  rightDriveBackward(speed);
 }
 
-void LeftTurn(int speed) {  //Untested
+void TurnLeft(int speed) { 
   leftDriveBackward(speed);
-  rightDriveBackward(speed);
+  rightDriveForward(speed);
 }
 
 
