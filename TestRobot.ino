@@ -8,7 +8,7 @@ int led = 13;
 void setup() {
   pinMode(led, OUTPUT);
   delay(2000);
-  Serial.begin(4800);
+  Serial.begin(9600);
   Serial1.begin(9600);
   Serial1.write(0xAA); //Makes Sabertooth automatically detect baud rate in packetized serial mode
   }
@@ -69,6 +69,39 @@ void takeInput() {
    l = 108 = left
    r = 114 = right
    */
+}
+
+uint16_t full;
+
+void chaseRed() {
+  if (Serial.available() > 0) {
+    uint8_t input = Serial.read();
+    if (input == 'G') {
+      digitalWrite(led, HIGH);
+      uint8_t high = Serial.read();
+      uint8_t low = Serial.read();
+
+      full = (high << 8) | low;
+      Serial.println(full);
+    }
+    else if (Serial.read() == 'N') {
+      Serial.println("NO RED");
+    }
+    else {
+      digitalWrite(led, LOW);
+    }
+  }
+  /*
+  if (Serial.available()) {
+    uint8_t firstEight = Serial.read();
+    full = (firstEight << 8);
+  }
+  if (Serial.available()) {
+    uint8_t secondEight = Serial.read();
+    full = full | secondEight;
+  }
+  Serial.println(full);
+  */
 }
 
 void stopMotors() {
