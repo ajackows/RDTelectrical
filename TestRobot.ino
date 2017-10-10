@@ -14,8 +14,9 @@ void setup() {
   }
 
 void loop() {
+ chaseRed();
+/* 
  takeInput();
-/*
  digitalWrite(led, HIGH);
  i += 1;
  if(i < 3) {
@@ -70,7 +71,7 @@ void takeInput() {
    r = 114 = right
    */
 }
-
+//233-700
 uint16_t full;
 
 void chaseRed() {
@@ -90,6 +91,16 @@ void chaseRed() {
     else {
       digitalWrite(led, LOW);
     }
+  }
+  map(full, 233, 700, 1, 3);
+  if (full == 1) {
+    TurnLeft(30);
+  }
+  else if (full == 2) {
+    DriveForward(30);
+  }
+  else {
+    TurnRight(30);
   }
   /*
   if (Serial.available()) {
