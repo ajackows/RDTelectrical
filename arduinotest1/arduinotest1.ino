@@ -2,11 +2,15 @@ void setup() {
   Serial.begin(9600);
   pinMode(13, OUTPUT); 
   pinMode(5, INPUT);
+  
   //OUTPUT can also be 1 possibly
   }
 
 void loop(){
   sread();
+  pin5();
+  analog_read();
+  
 }
 
 void sread(){
@@ -32,9 +36,20 @@ void sread(){
   }
 
 void pin5(){
-   if (5 == HIGH);
-   Serial.println("Pin is high");
-  
+   int value = digitalRead(5);
+   if (value == HIGH){    
+      Serial.println("Pin is high");
+   }
   }
 
+void analog_read(){
+  int value = analogRead(A0);
+  Voltage_value = (value*5)/1023;
+  
+  
+  
+  
+  
+  
+  }
 
