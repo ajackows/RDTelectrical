@@ -8,15 +8,42 @@ int led = 13;
 void setup() {
   pinMode(led, OUTPUT);
   delay(2000);
-  Serial.begin(9600);
-  Serial1.begin(9600);
-  Serial1.write(0xAA); //Makes Sabertooth automatically detect baud rate in packetized serial mode
+  Serial.begin(9600);  //to computer
+  Serial2.begin(9600); //to sabertooth
+  Serial2.write(0xAA); //Makes Sabertooth automatically detect baud rate in packetized serial mode
   }
 
 void loop() {
- chaseRed();
-/* 
+// chaseRed();
+ /*
+ Serial2.write(129);
+ Serial2.write(0);
+ Serial2.write(50);
+ Serial2.write((129 + 0 + 50) & 0b01111111);
+ 
+ Serial2.write(129);
+ Serial2.write(4);
+ Serial2.write(50);
+ Serial2.write((129 + 4 + 50) & 0b01111111);
+
+ delay(1000);
+
+ //Turn around
+
+ Serial2.write(129);
+ Serial2.write(1);
+ Serial2.write(50);
+ Serial2.write((129 + 1 + 50) & 0b01111111);
+ 
+ Serial2.write(129);
+ Serial2.write(5);
+ Serial2.write(50);
+ Serial2.write((129 + 5 + 50) & 0b01111111);
+
+ delay(1000);
+ */
  takeInput();
+ /*
  digitalWrite(led, HIGH);
  i += 1;
  if(i < 3) {
@@ -74,6 +101,7 @@ void takeInput() {
 //233-700
 uint16_t full;
 
+
 void chaseRed() {
   if (Serial.available() > 0) {
     uint8_t input = Serial.read();
@@ -85,7 +113,7 @@ void chaseRed() {
       full = (high << 8) | low;
       Serial.println(full);
     }
-    else if (Serial.read() == 'N') {
+    else if (input == 'N') {
       Serial.println("NO RED");
     }
     else {
@@ -102,7 +130,7 @@ void chaseRed() {
   else {
     TurnRight(30);
   }
-  /*
+  
   if (Serial.available()) {
     uint8_t firstEight = Serial.read();
     full = (firstEight << 8);
@@ -112,74 +140,74 @@ void chaseRed() {
     full = full | secondEight;
   }
   Serial.println(full);
-  */
+  
 }
 
 void stopMotors() {
   //Left side, motor 1
-  Serial1.write(leftAddress);
-  Serial1.write(0);
-  Serial1.write(0);
-  Serial1.write((leftAddress + 0 + 0) & 0b01111111);
+  Serial2.write(leftAddress);
+  Serial2.write(0);
+  Serial2.write(0);
+  Serial2.write((leftAddress + 0 + 0) & 0b01111111);
   //Left side, motor 2
-  Serial1.write(leftAddress);
-  Serial1.write(4);
-  Serial1.write(0);
-  Serial1.write((leftAddress + 4 + 0) & 0b01111111);
+  Serial2.write(leftAddress);
+  Serial2.write(4);
+  Serial2.write(0);
+  Serial2.write((leftAddress + 4 + 0) & 0b01111111);
   //Right side, motor 1
-  Serial1.write(rightAddress);
-  Serial1.write(0);
-  Serial1.write(0);
-  Serial1.write((rightAddress + 0 + 0) & 0b01111111);
+  Serial2.write(rightAddress);
+  Serial2.write(0);
+  Serial2.write(0);
+  Serial2.write((rightAddress + 0 + 0) & 0b01111111);
   //Right side, motor 2
-  Serial1.write(rightAddress);
-  Serial1.write(4);
-  Serial1.write(0);
-  Serial1.write((rightAddress + 4 + 0) & 0b01111111);
+  Serial2.write(rightAddress);
+  Serial2.write(4);
+  Serial2.write(0);
+  Serial2.write((rightAddress + 4 + 0) & 0b01111111);
 }
 
 void leftDriveForward(int speed) {
-  Serial1.write(leftAddress);
-  Serial1.write(1);
-  Serial1.write(speed);
-  Serial1.write((leftAddress + 1 + speed) & 0b01111111);
-  Serial1.write(leftAddress);
-  Serial1.write(5);
-  Serial1.write(speed);
-  Serial1.write((leftAddress + 5 + speed) & 0b01111111);
+  Serial2.write(leftAddress);
+  Serial2.write(1);
+  Serial2.write(speed);
+  Serial2.write((leftAddress + 1 + speed) & 0b01111111);
+  Serial2.write(leftAddress);
+  Serial2.write(5);
+  Serial2.write(speed);
+  Serial2.write((leftAddress + 5 + speed) & 0b01111111);
 }
 
 void rightDriveForward(int speed) { //Right side is reversed to drive straight
-  Serial1.write(rightAddress);
-  Serial1.write(0);
-  Serial1.write(speed);
-  Serial1.write((rightAddress + 0 + speed) & 0b01111111);
-  Serial1.write(rightAddress);
-  Serial1.write(4);
-  Serial1.write(speed);
-  Serial1.write((rightAddress + 4 + speed) & 0b01111111);
+  Serial2.write(rightAddress);
+  Serial2.write(0);
+  Serial2.write(speed);
+  Serial2.write((rightAddress + 0 + speed) & 0b01111111);
+  Serial2.write(rightAddress);
+  Serial2.write(4);
+  Serial2.write(speed);
+  Serial2.write((rightAddress + 4 + speed) & 0b01111111);
 }
 
 void leftDriveBackward(int speed) {
-  Serial1.write(leftAddress);
-  Serial1.write(0);
-  Serial1.write(speed);
-  Serial1.write((leftAddress + 0 + speed) & 0b01111111);
-  Serial1.write(leftAddress);
-  Serial1.write(4);
-  Serial1.write(speed);
-  Serial1.write((leftAddress + 4 + speed) & 0b01111111);
+  Serial2.write(leftAddress);
+  Serial2.write(0);
+  Serial2.write(speed);
+  Serial2.write((leftAddress + 0 + speed) & 0b01111111);
+  Serial2.write(leftAddress);
+  Serial2.write(4);
+  Serial2.write(speed);
+  Serial2.write((leftAddress + 4 + speed) & 0b01111111);
 }
 
 void rightDriveBackward(int speed) {
-  Serial1.write(rightAddress);
-  Serial1.write(1);
-  Serial1.write(speed);
-  Serial1.write((rightAddress + 1 + speed) & 0b01111111);
-  Serial1.write(rightAddress);
-  Serial1.write(5);
-  Serial1.write(speed);
-  Serial1.write((rightAddress + 5 + speed) & 0b01111111);
+  Serial2.write(rightAddress);
+  Serial2.write(1);
+  Serial2.write(speed);
+  Serial2.write((rightAddress + 1 + speed) & 0b01111111);
+  Serial2.write(rightAddress);
+  Serial2.write(5);
+  Serial2.write(speed);
+  Serial2.write((rightAddress + 5 + speed) & 0b01111111);
 }
 
 void DriveForward(int speed) {
@@ -201,6 +229,5 @@ void TurnLeft(int speed) {
   leftDriveBackward(speed);
   rightDriveForward(speed);
 }
-
 
 
